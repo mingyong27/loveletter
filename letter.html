@@ -4,8 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Thư nhỏ dành cho em</title>
+
   <!-- Font handwriting -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
   <style>
     :root{
       --bg:#fff7f9;
@@ -27,25 +29,28 @@
       background:var(--card); border-radius:16px; box-shadow:var(--shadow);
       padding:36px;
     }
-    .heart-watermark{
-      position:absolute; right:-80px; top:-80px; font-size:180px;
-      color:rgba(255,107,138,0.03); transform:rotate(-20deg); pointer-events:none;
-    }
-    @media (max-width: 768px) {
-     .heart-watermark {
-       font-size:120px;
-       right:-40px;
-       top:-40px;
-     }
+
+    /* 🧸 Loopy thả tim (GIF) */
+    .loopy-watermark {
+      position: absolute;
+      right: -40px;
+      top: -40px;
+      width: 180px;
+      opacity: 0.15;
+      transform: rotate(-5deg);
+      pointer-events: none;
+      user-select: none;
     }
 
-    @media (max-width: 480px) {
-     .heart-watermark {
-       font-size:90px;
-       right:-30px;
-       top:-30px;
-     }
+    @media (max-width: 768px) {
+      .loopy-watermark {
+        width: 110px;
+        right: -20px;
+        top: -10px;
+        opacity: 0.18;
+      }
     }
+
     h1{
       margin:0 0 8px;
       color:var(--accent);
@@ -116,8 +121,9 @@
     }
     .overlay .panel h3{ margin:0 0 8px; color:#b33b5f; font-size:28px; }
     .overlay .panel p{ margin:0 0 12px; color:#7a7a7a; font-size:20px; }
+
     @media (max-width:520px){
-      .card{ padding:20px } .heart-watermark{ font-size:160px; right:-50px; top:-60px }
+      .card{ padding:20px }
     }
   </style>
 </head>
@@ -139,13 +145,19 @@
 
   <!-- 💌 Nội dung lá thư -->
   <div class="card">
-    <div class="heart-watermark">❤</div>
+    <!-- 🧸 Loopy thả tim GIF -->
+    <img
+      src="https://i.ibb.co/ZVhVQtz/loopy-heart-gif.gif"
+      alt="Loopy thả tim"
+      class="loopy-watermark"
+    />
+
     <h1>Gửi em bé</h1>
-    <p class="lead">Lời gửi gắm nhỏ tới cục cưng.</p>
+    <p class="lead">Lời gửi gắm nhỏ tới cục cưng 💗</p>
 
     <div class="letter" id="letter">
-      <p>Chúc em bé 20/10 càng ngày xinh đẹp, "ngoan" hơn nữa nha. Mỗi ngày đều cute, dth, tươi tắn hơn như con Loopy của em vay.</p>
-      <p>Em bé cũng phải nhớ giữ sức khoẻ và luôn tự tin với bản thân nhé. Hy vọng sắp tới sẽ cùng nhau đón nhìu ngày hơn nữa. Thương em bie nhiu a 💖</p>
+      <p>Chúc em bé 20/10 càng ngày xinh đẹp, "ngoan" hơn nữa nha. Mỗi ngày đều cute, dễ thương, tươi tắn hơn như con Loopy của em zậy 🧸.</p>
+      <p>Em bé cũng phải nhớ giữ sức khoẻ và luôn tự tin với bản thân nhé. Hy vọng sắp tới sẽ cùng nhau đón nhìu ngày hơn nữa. Thương em biế nhiu á 💖</p>
       <div class="signature">— Anh bé</div>
     </div>
   </div>
@@ -162,34 +174,24 @@
     const layer = document.getElementById('fallingLayer');
     const HEARTS = ['💖','💞','💓','💕','💗','💘','❤'];
     function spawnHeart(){
-       const wrap = document.createElement('span');   // lớp ngoài
+       const wrap = document.createElement('span');
        wrap.className = 'particle';
-
-       const inner = document.createElement('span');  // lớp trong
-       inner.className = 'inner';
-       inner.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
-
-    // random hoá tham số
+       wrap.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
        const startX = Math.random() * window.innerWidth;
-       const fs = (Math.random()*18 + 16);           // 16–34px
-       const dur = (Math.random()*4 + 6) + 's';      // 6–10s
-       const delay = (Math.random()*-5) + 's';       // bắt đầu lệch pha
-       const sway = (Math.random()*2 + 2) + 's';     // 2–4s
-
+       const dur = (Math.random()*4 + 6) + 's';
+       const delay = (Math.random()*-5) + 's';
+       const sway = (Math.random()*2 + 2) + 's';
+       const rot = (Math.random()*60 - 30) + 'deg';
        wrap.style.left = startX + 'px';
-       wrap.style.animationDuration = dur;
-       wrap.style.animationDelay = delay;
-       inner.style.setProperty('--fs', fs + 'px');
-       inner.style.animationDuration = sway;
-
-       wrap.appendChild(inner);
+       wrap.style.setProperty('--dur', dur);
+       wrap.style.setProperty('--delay', delay);
+       wrap.style.setProperty('--sway', sway);
+       wrap.style.setProperty('--rot', rot);
        layer.appendChild(wrap);
-
-    // dọn rác sau 12s
        setTimeout(()=> wrap.remove(), 12000);
      }
-    let heartTimer=setInterval(spawnHeart,260);
-    for(let i=0;i<20;i++) setTimeout(spawnHeart,i*120);
+    setInterval(spawnHeart, 260);
+    for(let i=0;i<15;i++) setTimeout(spawnHeart,i*120);
 
     /* 🎵 Nhạc nền */
     const audio=document.getElementById('bgm');
@@ -198,6 +200,7 @@
     const vol=document.getElementById('vol');
     const overlay=document.getElementById('overlay');
     const startMusic=document.getElementById('startMusic');
+
     audio.volume=0.6; audio.muted=true;
     audio.play().then(()=>{ togglePlay.textContent='Pause'; toggleMute.textContent='Unmute'; })
       .catch(()=>{ overlay.classList.add('show'); });
