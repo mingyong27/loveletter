@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tạo QR cho thư</title>
+  <style>
+    body{ font-family: system-ui, Roboto, Arial; padding:24px; background:#f9f7fb; display:flex; gap:20px; align-items:center; justify-content:center; height:100vh; box-sizing:border-box;}
+    .box{ background:#fff; padding:18px; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.06); text-align:center; width:340px;}
+    input{ width:100%; padding:10px; border-radius:8px; border:1px solid #eee; box-sizing:border-box; margin-bottom:12px;}
+    button{ padding:10px 14px; border-radius:8px; border:none; background:#ff6b8a; color:#fff; cursor:pointer;}
+    img.qr{ width:260px; height:260px; display:block; margin:12px auto 0;}
+    small{ color:#666; display:block; margin-top:10px;}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h3>Tạo QR cho thư</h3>
+    <p>Nếu bạn host `letter.html`, dán URL ở dưới rồi nhấn Tạo QR.</p>
+    <input id="url" placeholder="https://example.com/letter.html" />
+    <button id="btn">Tạo QR</button>
+    <div id="out" style="margin-top:12px"></div>
+    <small>Tip: hoặc để trống và QR sẽ chứa chính nội dung thư (không cần host).</small>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const urlIn = document.getElementById('url');
+    const out = document.getElementById('out');
+
+    const messageText = 'Chúc em bé 20/10 càng ngày xinh đẹp, luôn y';
+
+    btn.addEventListener('click', ()=>{
+      let val = urlIn.value.trim();
+      let payload;
+      if(val){
+        // tạo QR chứa URL
+        payload = encodeURIComponent(val);
+      } else {
+        // tạo QR chứa trực tiếp nội dung thư (text)
+        payload = encodeURIComponent(messageText + ' — Thư gửi từ anh');
+      }
+      const size = 300;
+      const imgUrl = `https://chart.googleapis.com/chart?cht=qr&chs=${size}x${size}&chl=${payload}&choe=UTF-8`;
+      out.innerHTML = `<img class="qr" src="${imgUrl}" alt="QR" /><a href="${imgUrl}" download="qr.png">Tải QR (PNG)</a>`;
+    });
+  </script>
+</body>
+</html>
