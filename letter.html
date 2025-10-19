@@ -147,26 +147,32 @@
     const layer = document.getElementById('fallingLayer');
     const HEARTS = ['💖','💞','💓','💕','💗','💘','❤'];
     function spawnHeart(){
-      const s=document.createElement('span');
-      s.className='particle';
-      s.textContent=HEARTS[Math.floor(Math.random()*HEARTS.length)];
-      const x=Math.random()*window.innerWidth;
-      const tx=(Math.random()*60-30)+'px';
-      const rot=(Math.random()*360-180)+'deg';
-      const size=Math.random()*20+14;
-      const dur=(Math.random()*4+6)+'s';
-      const delay=(Math.random()*-5)+'s';
-      const sway=(Math.random()*2+2)+'s';
-      s.style.left=x+'px';
-      s.style.fontSize=size+'px';
-      s.style.setProperty('--tx',tx);
-      s.style.setProperty('--rot',rot);
-      s.style.setProperty('--dur',dur);
-      s.style.setProperty('--delay',delay);
-      s.style.setProperty('--sway',sway);
-      layer.appendChild(s);
-      setTimeout(()=>s.remove(),12000);
-    }
+       const wrap = document.createElement('span');   // lớp ngoài
+       wrap.className = 'particle';
+
+       const inner = document.createElement('span');  // lớp trong
+       inner.className = 'inner';
+       inner.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
+
+    // random hoá tham số
+       const startX = Math.random() * window.innerWidth;
+       const fs = (Math.random()*18 + 16);           // 16–34px
+       const dur = (Math.random()*4 + 6) + 's';      // 6–10s
+       const delay = (Math.random()*-5) + 's';       // bắt đầu lệch pha
+       const sway = (Math.random()*2 + 2) + 's';     // 2–4s
+
+       wrap.style.left = startX + 'px';
+       wrap.style.animationDuration = dur;
+       wrap.style.animationDelay = delay;
+       inner.style.setProperty('--fs', fs + 'px');
+       inner.style.animationDuration = sway;
+
+       wrap.appendChild(inner);
+       layer.appendChild(wrap);
+
+    // dọn rác sau 12s
+       setTimeout(()=> wrap.remove(), 12000);
+     }
     let heartTimer=setInterval(spawnHeart,260);
     for(let i=0;i<20;i++) setTimeout(spawnHeart,i*120);
 
