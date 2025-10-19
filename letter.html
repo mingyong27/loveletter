@@ -4,98 +4,199 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Thư nhỏ dành cho em</title>
+  <!-- Font handwriting -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#fff7f9;
       --card:#fff;
       --accent:#ff6b8a;
       --muted:#7a7a7a;
-      --paper: #fff4f6;
       --shadow: 0 8px 30px rgba(0,0,0,0.08);
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
+    *{box-sizing:border-box}
     body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      margin:0; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
       background: linear-gradient(180deg, #fff7f9 0%, #fff0f2 100%);
-      padding:24px;
+      padding:24px; overflow:hidden;
+      font-family: 'Dancing Script', cursive;
     }
     .card{
-      width:100%;
-      max-width:720px;
-      background:var(--card);
-      border-radius:16px;
-      box-shadow:var(--shadow);
+      width:100%; max-width:720px; position:relative; overflow:hidden;
+      background:var(--card); border-radius:16px; box-shadow:var(--shadow);
       padding:36px;
-      box-sizing:border-box;
-      position:relative;
-      overflow:hidden;
     }
-    .heart{
-      position:absolute;
-      right:-80px;
-      top:-80px;
-      font-size:220px;
-      color:rgba(255,107,138,0.06);
-      transform:rotate(-20deg);
-      pointer-events:none;
+    .heart-watermark{
+      position:absolute; right:-80px; top:-80px; font-size:220px;
+      color:rgba(255,107,138,0.06); transform:rotate(-20deg); pointer-events:none;
     }
     h1{
-      margin:0 0 8px 0;
+      margin:0 0 8px;
       color:var(--accent);
-      font-size:28px;
-      letter-spacing:0.2px;
+      font-size:38px;
+      letter-spacing:0.3px;
+      text-align:center;
     }
     p.lead{
-      margin:0 0 20px 0;
+      margin:0 0 20px;
       color:var(--muted);
-      font-size:15px;
+      font-size:22px;
+      text-align:center;
     }
+
     .letter{
       background:linear-gradient(180deg, #fff 0%, #fffefc 100%);
-      border-radius:12px;
-      padding:22px;
-      border:1px solid #ffe6ec;
+      border-radius:12px; padding:22px; border:1px solid #ffe6ec;
+      line-height:1.8; font-size:24px; color:#333;
     }
-    .letter p{
-      margin:0 0 12px 0;
-      font-size:18px;
-      line-height:1.6;
-      color:#333;
-    }
+    .letter p{ margin:0 0 16px; }
     .signature{
-      margin-top:18px;
-      text-align:right;
-      color:#b33b5f;
-      font-weight:600;
-      font-size:16px;
+      margin-top:18px; text-align:right;
+      color:#b33b5f; font-weight:600; font-size:26px;
     }
     .foot{
       margin-top:18px;
       text-align:center;
       color:#9b9b9b;
-      font-size:13px;
+      font-size:18px;
     }
+
+    /* 💞 Tim rơi */
+    .falling-layer{ position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+    .particle{
+      position:absolute; top:-40px; font-size:24px;
+      animation: fall linear var(--dur) var(--delay) forwards,
+                 sway ease-in-out var(--sway) infinite alternate;
+      opacity:0.9; filter: drop-shadow(0 4px 8px rgba(255,107,138,.25));
+    }
+    @keyframes fall{ to{ transform:translate3d(var(--tx,0px), calc(100vh + 60px), 0) rotate(var(--rot,0deg)); opacity:1; } }
+    @keyframes sway{ from{ transform:translateX(-10px) } to{ transform:translateX(10px) } }
+
+    /* 🎵 Điều khiển nhạc */
+    .audio-ctrl{
+      position: fixed; right:14px; bottom:14px; z-index:5;
+      background:#ffffffcc; backdrop-filter: blur(6px);
+      border:1px solid #ffd3dd; border-radius:999px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.08);
+      display:flex; align-items:center; gap:10px; padding:8px 12px;
+    }
+    .btn{
+      appearance:none; border:0; outline:0; cursor:pointer;
+      background:#ff6b8a; color:#fff; border-radius:999px;
+      padding:8px 12px; font-weight:600;
+    }
+    .btn.secondary{ background:#ffe3ea; color:#b33b5f; }
+    .vol{ width:110px; accent-color:#ff6b8a; }
+
+    .overlay{
+      position:fixed; inset:0; display:none; place-items:center; z-index:10;
+      background:linear-gradient(180deg, rgba(255,247,249,.85), rgba(255,240,242,.85));
+    }
+    .overlay.show{ display:grid; }
+    .overlay .panel{
+      background:#fff; border:1px solid #ffd3dd; border-radius:16px;
+      padding:18px 22px; text-align:center;
+      box-shadow:0 10px 40px rgba(0,0,0,.08);
+    }
+    .overlay .panel h3{ margin:0 0 8px; color:#b33b5f; font-size:28px; }
+    .overlay .panel p{ margin:0 0 12px; color:#7a7a7a; font-size:20px; }
     @media (max-width:520px){
-      .card{ padding:20px; }
-      .heart{ font-size:160px; right:-50px; top:-60px; }
+      .card{ padding:20px } .heart-watermark{ font-size:160px; right:-50px; top:-60px }
     }
   </style>
 </head>
 <body>
-  <div class="card" role="main" aria-label="Thư tình">
-    <div class="heart">❤</div>
-    <h1>Gửi em bé</h1>
-    <p class="lead">Một lời nhỏ cho một ngày đặc biệt.</p>
+  <!-- 💞 Tim rơi -->
+  <div class="falling-layer" id="fallingLayer"></div>
 
-    <div class="letter" id="letter">
-      <p>Chúc em bé 20/10 càng ngày xinh đẹp, "ngoan" hơn nữa nha. Mỗi ngày đều yêu đời tươi tắn hơn như con loopy của em zay.</p>
-      <p>Em bé cũng phải nhớ giữ sức khoẻ và luôn tự tin với bản thân nhé. Hy vọng sắp tới sẽ cùng nhau đón nhìu ngày hơn nữa. Thuong em bie nhiu a</p>
-      <div class="signature">—Anh bé</div>
+  <!-- 🎵 Overlay xin phép bật nhạc -->
+  <div class="overlay" id="overlay">
+    <div class="panel">
+      <h3>Gửi em bé 💖</h3>
+      <p>Mình bật chút nhạc nền nhé?</p>
+      <button class="btn" id="startMusic">Bật nhạc</button>
     </div>
   </div>
+
+  <!-- 🎵 Audio -->
+  <audio id="bgm" src="music.mp3" preload="auto" loop></audio>
+
+  <!-- 💌 Nội dung lá thư -->
+  <div class="card">
+    <div class="heart-watermark">❤</div>
+    <h1>Gửi em bé</h1>
+    <p class="lead">Một lời nhỏ cho một ngày đặc biệt — hy vọng em sẽ mỉm cười khi đọc.</p>
+
+    <div class="letter" id="letter">
+      <p>Chúc em bé 20/10 càng ngày xinh đẹp, "ngoan" hơn nữa nha. Mỗi ngày đều yêu đời tươi tắn hơn như con Loopy của em zay.</p>
+      <p>Em bé cũng phải nhớ giữ sức khoẻ và luôn tự tin với bản thân nhé. Hy vọng sắp tới sẽ cùng nhau đón nhìu ngày hơn nữa. Thương em bie nhiu a 💖</p>
+      <div class="signature">— Anh bé</div>
+    </div>
+  </div>
+
+  <!-- 🎛 Điều khiển nhạc -->
+  <div class="audio-ctrl">
+    <button class="btn" id="togglePlay">Play</button>
+    <button class="btn secondary" id="toggleMute">Unmute</button>
+    <input class="vol" id="vol" type="range" min="0" max="1" step="0.01" value="0.6" />
+  </div>
+
+  <script>
+    /* 💞 Tim rơi */
+    const layer = document.getElementById('fallingLayer');
+    const HEARTS = ['💖','💞','💓','💕','💗','💘','❤'];
+    function spawnHeart(){
+      const s=document.createElement('span');
+      s.className='particle';
+      s.textContent=HEARTS[Math.floor(Math.random()*HEARTS.length)];
+      const x=Math.random()*window.innerWidth;
+      const tx=(Math.random()*60-30)+'px';
+      const rot=(Math.random()*360-180)+'deg';
+      const size=Math.random()*20+14;
+      const dur=(Math.random()*4+6)+'s';
+      const delay=(Math.random()*-5)+'s';
+      const sway=(Math.random()*2+2)+'s';
+      s.style.left=x+'px';
+      s.style.fontSize=size+'px';
+      s.style.setProperty('--tx',tx);
+      s.style.setProperty('--rot',rot);
+      s.style.setProperty('--dur',dur);
+      s.style.setProperty('--delay',delay);
+      s.style.setProperty('--sway',sway);
+      layer.appendChild(s);
+      setTimeout(()=>s.remove(),12000);
+    }
+    let heartTimer=setInterval(spawnHeart,260);
+    for(let i=0;i<20;i++) setTimeout(spawnHeart,i*120);
+
+    /* 🎵 Nhạc nền */
+    const audio=document.getElementById('bgm');
+    const togglePlay=document.getElementById('togglePlay');
+    const toggleMute=document.getElementById('toggleMute');
+    const vol=document.getElementById('vol');
+    const overlay=document.getElementById('overlay');
+    const startMusic=document.getElementById('startMusic');
+    audio.volume=0.6; audio.muted=true;
+    audio.play().then(()=>{ togglePlay.textContent='Pause'; toggleMute.textContent='Unmute'; })
+      .catch(()=>{ overlay.classList.add('show'); });
+    startMusic?.addEventListener('click',async()=>{
+      try{ audio.muted=false; await audio.play();
+        overlay.classList.remove('show'); togglePlay.textContent='Pause'; toggleMute.textContent='Mute';
+      }catch(e){ alert('Thiết bị đang chặn phát nhạc. Hãy bấm Play ở góc dưới nhé!'); }
+    });
+    togglePlay.addEventListener('click',async()=>{
+      if(audio.paused){ await audio.play(); togglePlay.textContent='Pause'; }
+      else{ audio.pause(); togglePlay.textContent='Play'; }
+    });
+    toggleMute.addEventListener('click',()=>{
+      audio.muted=!audio.muted;
+      toggleMute.textContent=audio.muted?'Unmute':'Mute';
+    });
+    vol.addEventListener('input',()=>{ audio.volume=+vol.value; });
+    window.addEventListener('pointerdown',async()=>{
+      if(audio.paused){ try{ await audio.play(); togglePlay.textContent='Pause'; }catch(e){} }
+    },{once:true});
+  </script>
 </body>
 </html>
